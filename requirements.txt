@@ -1,0 +1,9 @@
+python-telegram-bot==13.15
+urllib3<2
+Pillow
+pymupdf
+fpdf
+svglib
+reportlab
+gunicorn
+flask
