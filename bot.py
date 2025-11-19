@@ -11,7 +11,11 @@ from fpdf import FPDF
 
 # =============== تنظیمات ===============
 
-TOKEN = "8465808953:AAGoKuN2bVYV9sJCPrAmvdcGCaw4P4VyrSA"  # توکن بات خود را این‌جا بگذار
+TOKEN = os.environ.get("BOT_TOKEN")
+
+if not TOKEN:
+    raise ValueError("BOT_TOKEN environment variable is not set")
+
 WATERMARK_FILE = "watermark.png"  # فایل لوگوی شما
 
 logging.basicConfig(
