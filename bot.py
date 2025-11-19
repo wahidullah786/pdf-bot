@@ -166,38 +166,6 @@ def pdf_to_images(update, context):
         cleanup_temp_dir(temp)
 
 
-def svg_to_png(update, context):
-    msg = update.message
-    doc = msg.document
-    temp = tempfile.mkdtemp()
-
-    if not doc.file_name.lower().endswith(".svg"):
-        msg.reply_text("SVG بفرستید 🙂")
-        return
-
-    try:
-        msg.reply_chat_action(ChatAction.UPLOAD_PHOTO)
-
-        svg_path = os.path.join(temp, "input.svg")
-        png_path = os.path.join(temp, "output.png")
-        doc.get_file().download(svg_path)
-
-        from svglib.svglib import svg2rlg
-        from reportlab.graphics import renderPM
-
-        drawing = svg2rlg(svg_path)
-        renderPM.drawToFile(drawing, png_path, fmt="PNG")
-
-        with open(png_path, "rb") as f:
-            msg.reply_document(f, filename="converted.png", caption="تمام شد 😄")
-
-    except Exception as e:
-        logger.error(e)
-        msg.reply_text("❌ خطا در تبدیل SVG")
-    finally:
-        cleanup_temp_dir(temp)
-
-
 def unknown(update, context):
     update.message.reply_text("😊 لطفاً عکس، PDF یا SVG بفرستید")
 
@@ -209,7 +177,6 @@ def main():
     dp = updater.dispatcher
 
     dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(MessageHandler(Filters.document.file_extension("svg"), svg_to_png))
     dp.add_handler(MessageHandler(Filters.photo | Filters.document.image, image_to_pdf))
     dp.add_handler(MessageHandler(Filters.document.pdf, pdf_to_images))
     dp.add_handler(MessageHandler(Filters.all, unknown))

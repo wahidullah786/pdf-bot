@@ -3,7 +3,6 @@ urllib3<2
 Pillow
 pymupdf
 fpdf
-svglib
 reportlab
 gunicorn
 flask
