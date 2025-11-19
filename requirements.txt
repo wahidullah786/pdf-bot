@@ -4,5 +4,3 @@ Pillow
 pymupdf
 fpdf
 reportlab
-gunicorn
-flask
